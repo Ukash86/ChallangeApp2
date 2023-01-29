@@ -58,7 +58,7 @@
         }
         private Employee GetEmployee(string name)
         {
-            return new Employee(name, "Tesla", 30);
+            return new Employee(name, "Tesla");
         }
 
     }
