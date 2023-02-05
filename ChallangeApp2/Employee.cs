@@ -4,6 +4,8 @@ namespace ChallengeApp2
 {
     public class Employee
     {
+        private const char sex = 'M';
+
         private List<float> grades = new List<float>();
 
         public Employee()
@@ -29,7 +31,7 @@ namespace ChallengeApp2
             }
             else
             {
-                Console.WriteLine("Ocena wykracza poza przedział 0-100");
+                throw new Exception("Ocena wykracza poza przedział 0-100");
             }
         }
 
@@ -41,7 +43,7 @@ namespace ChallengeApp2
             }
             else
             {
-                Console.WriteLine("Ocena wykracza poza przedział 0-100");
+                throw new Exception("Ocena wykracza poza przedział 0 - 100");
             }
         }
         public void AddGrade(double grade)
@@ -49,56 +51,44 @@ namespace ChallengeApp2
             var gradeInDouble = (float)grade;
             this.AddGrade(gradeInDouble);
         }
-        public void AddGrade(char grade)
-        {
-            switch(grade)
-            {
-                case 'A':
-                case 'a':
-                    this.grades.Add(100);
-                    break;
-                case 'B':
-                    this.grades.Add(80);
-                    break;
-                case 'C':
-                    this.grades.Add(60);
-                    break;
-                case 'D':
-                    this.grades.Add(40);
-                    break;
-                case 'E':
-                    this.grades.Add(20);
-                    break;
-                default:
-                    Console.WriteLine("Wrong Letter");
-                    this.grades.Add(0);
-                    break;
-            }
-
-
-        }
-
         public void AddGrade(long grade)
         {
             var gradeInLong = (float)grade;
             this.AddGrade(gradeInLong);
         }
-
         public void AddGrade(short grade)
         {
             var gradeInShort = (float)grade;
             this.AddGrade(gradeInShort);
         }
-
         public void AddGrade(string grade)
         {
             if (float.TryParse(grade, out float result))
             {
                 this.AddGrade(result);
             }
-            else
+            switch (grade)
             {
-                //Console.WriteLine("String is no float");
+                case "A":
+                case "a":
+                    this.grades.Add(100);
+                    break;
+                case "B":
+                case "b":
+                    this.grades.Add(80);
+                    break;
+                case "C":
+                case "c":
+                    this.grades.Add(60);
+                    break;
+                case "D":
+                case "d":
+                    this.grades.Add(40);
+                    break;
+                case "E":
+                case "e":
+                    this.grades.Add(20);
+                    break;
             }
         }
         public Statistics GetStatistics()
@@ -107,6 +97,7 @@ namespace ChallengeApp2
             statistics.Average = 0;
             statistics.Max = float.MinValue;
             statistics.Min = float.MaxValue;
+            statistics.QuantityGrades = 0;
 
             foreach (var grade in this.grades)
             {
@@ -123,6 +114,7 @@ namespace ChallengeApp2
                 }
             }
             statistics.Average /= this.grades.Count;
+            statistics.QuantityGrades = this.grades.Count;
 
             switch(statistics.Average)
             {
@@ -142,7 +134,6 @@ namespace ChallengeApp2
                     statistics.AverageLetter = 'E';
                     break;
             }
-
             return statistics;
         }
     }
